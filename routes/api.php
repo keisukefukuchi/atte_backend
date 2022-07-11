@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\RestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,5 @@ Route::group([
     Route::post('refresh', [UserController::class, 'refresh']);
     Route::get('user', [UserController::class, 'me']);
     Route::apiResource('/attendance', AttendanceController::class);
+    Route::apiResource('/rest', RestController::class);
 });

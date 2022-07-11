@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Rest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 class RestController extends Controller
 {
@@ -25,7 +28,20 @@ class RestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = $request->user_id;
+        $dt = new Carbon();
+        $date = $dt->toDateString();
+        $time = $dt->toTimeString();
+        $attendance = Attendance::where('user_id', $user_id)->where('date', $date)->first();
+        $rest = Rest::create([
+            'attendance_id' => $attendance->id,
+            'start_time' => $time,
+        ]);
+        if ($rest) {
+            return response()->json([
+                'message' => 'Deleted successfully',
+            ], 201);
+        }
     }
 
     /**
