@@ -16,7 +16,11 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendances = Attendance::with(['users','rests'])->get();
+        $dt = new Carbon();
+        $date = $dt->toDateString();
+        $attendances = Attendance::where('date', $date)->get();
+
+        // $attendances = Attendance::with(['users','rests'])->get();
         return response()->json([
             'attendances' => $attendances
         ],200);
@@ -55,7 +59,7 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
-        //
+
     }
 
     /**
@@ -67,7 +71,12 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, Attendance $attendance)
     {
-        //
+        $dt = new Carbon();
+        $time = $dt->toTimeString();
+        $attendance = Attendance::where('id', $attendance->id)->update(['end_time' => $time]);
+        return response()->json([
+            'attendances' => $attendance
+        ],200);
     }
 
     /**
