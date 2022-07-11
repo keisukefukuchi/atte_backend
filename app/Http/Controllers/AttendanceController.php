@@ -23,7 +23,7 @@ class AttendanceController extends Controller
         // $attendances = Attendance::with(['users','rests'])->get();
         return response()->json([
             'attendances' => $attendances
-        ],200);
+        ], 200);
     }
 
     /**
@@ -46,9 +46,11 @@ class AttendanceController extends Controller
             'date' => $date,
         ];
         $attendance = Attendance::create($param);
-        return response()->json([
-            'attendances' => $attendance
-        ],201);
+        if ($attendance) {
+            return response()->json([
+                'message' => 'Deleted successfully',
+            ], 201);
+        }
     }
 
     /**
@@ -59,7 +61,6 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
-
     }
 
     /**
@@ -74,9 +75,15 @@ class AttendanceController extends Controller
         $dt = new Carbon();
         $time = $dt->toTimeString();
         $attendance = Attendance::where('id', $attendance->id)->update(['end_time' => $time]);
-        return response()->json([
-            'attendances' => $attendance
-        ],200);
+        if ($attendance) {
+            return response()->json([
+                'message' => 'Deleted successfully',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
     }
 
     /**
