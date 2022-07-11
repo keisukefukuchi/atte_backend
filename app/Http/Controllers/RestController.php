@@ -64,7 +64,18 @@ class RestController extends Controller
      */
     public function update(Request $request, Rest $rest)
     {
-        //
+        $dt = new Carbon();
+        $time = $dt->toTimeString();
+        $rest = Rest::where('id', $rest->id)->update(['end_time' => $time]);
+        if ($rest) {
+            return response()->json([
+                'message' => 'Deleted successfully',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
     }
 
     /**
