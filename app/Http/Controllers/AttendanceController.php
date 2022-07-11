@@ -18,7 +18,7 @@ class AttendanceController extends Controller
     {
         $dt = new Carbon();
         $date = $dt->toDateString();
-        $attendances = Attendance::where('date', $date)->get();
+        $attendances = Attendance::with(['users','rests'])->where('date', $date)->get();
 
         // $attendances = Attendance::with(['users','rests'])->get();
         return response()->json([
